@@ -48,7 +48,11 @@ function abrirNotificacion() {
 
 console.log(jugadores);
 
-fetch('https://api.pexels.com/v1/photos/4226910%27')
+fetch('https://api.pexels.com/v1/photos/4226910%27', {
+  headers: {
+    Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
+  },
+})
   .then((resp) => resp.json())
   .then((data) => {
     console.log(data);
@@ -56,8 +60,11 @@ fetch('https://api.pexels.com/v1/photos/4226910%27')
     let imagenTijera= `<img src=${data.src.small}>`;
     btnTijera.innerHTML += imagenTijera;
   });
-
-fetch('https://api.pexels.com/v1/photos/2363901')
+  fetch('https://api.pexels.com/v1/photos/2363901', {
+    headers: {
+      Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
+    },
+  })
   .then((resp) => resp.json())
   .then((data) => {
     console.log(data);
@@ -65,8 +72,12 @@ fetch('https://api.pexels.com/v1/photos/2363901')
     let imagenPiedra= `<img src=${data.src.small}>`;
     btnPiedra.innerHTML += imagenPiedra;
   });
-  
-fetch('https://api.pexels.com/v1/photos/8823492')
+
+  fetch('https://api.pexels.com/v1/photos/8823492', {
+    headers: {
+      Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
+    },
+  })
   .then((resp) => resp.json())
   .then((data) => {
     console.log(data);
@@ -76,10 +87,17 @@ fetch('https://api.pexels.com/v1/photos/8823492')
   });
   
   function numAleatorio() {
-    return Math.floor(Math.random() * 3 + 1)
+    let numeroGenerado = Math.floor(Math.random() * 3 + 1)
+    if (numeroGenerado == 1) {
+      return "PIEDRA"
+    } else if (numeroGenerado == 2) {
+      return "PAPEL"
+    } else {
+      return "TIJERA"
+    }
   }
   
-const aleatorioGenerado = numAleatorio()
+let aleatorioGenerado = numAleatorio() 
 
 let partida
   
@@ -92,6 +110,8 @@ const btntijera = document.getElementById('btntijera');
 const seleccionJugador =  document.getElementById('app1');
 
 const seleccionPrograma = document.getElementById('app2');
+
+const resultadoJugada = document.getElementsByClassName('h1');
 
 function jugadorPiedra () {
   seleccionJugador.innerText = "PIEDRA"
@@ -106,13 +126,25 @@ function jugadorTijera () {
 }
 
 function programaEscogio (){
-  seleccionPrograma.innerText = aleatorioGenerado
+  seleccionPrograma.innerText = numAleatorio() 
+}
+
+function resultadoPiedra (){
+  if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "PAPEL")) {
+    resultadoJugada.innerText = "PERDISTE";
+  } else if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "TIJERA")) {
+    resultadoJugada.innerText = "GANASTE";
+  } else {
+    resultadoJugada.innerText = "EMPATASTE";
+  }
 }
 
 btnpiedra.addEventListener('click', () => {
-  contenedor2.classList.toggle('contenedor2');
   jugadorPiedra();
   programaEscogio();
+  resultadoPiedra()
+  contenedor2.classList.toggle('contenedor2');
+  contenedor3.classList.toggle('contenedor3');
 });
 
 btnpapel.addEventListener('click', () => {
