@@ -131,11 +131,11 @@ function programaEscogio (){
 
 function resultadoPiedra (){
   if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "PAPEL")) {
-    resultadoJugada.innerText = "PERDISTE";
+    resultadoJugada.innerHTML = "<h1>PERDISTE</h1>";
   } else if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "TIJERA")) {
-    resultadoJugada.innerText = "GANASTE";
+    resultadoJugada.innerHTML = "<h1>GANASTE</h1>";
   } else {
-    resultadoJugada.innerText = "EMPATASTE";
+    resultadoJugada.innerHTML = "<h1>EMPATASTE</h1>";
   }
 }
 
