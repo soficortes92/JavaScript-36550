@@ -111,8 +111,6 @@ const seleccionJugador =  document.getElementById('app1');
 
 const seleccionPrograma = document.getElementById('app2');
 
-const resultadoJugada = document.getElementsByClassName('h1');
-
 function jugadorPiedra () {
   seleccionJugador.innerText = "PIEDRA"
 }
@@ -131,56 +129,57 @@ function programaEscogio (){
 
 function resultadoPiedra (){
   if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "PAPEL")) {
-    resultadoJugada.innerHTML = "<h1>PERDISTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
   } else if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "TIJERA")) {
-    resultadoJugada.innerHTML = "<h1>GANASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
   } else {
-    resultadoJugada.innerHTML = "<h1>EMPATASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+  }
+}
+
+function resultadoPapel (){
+  if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "PAPEL")) {
+    document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+  } else if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "TIJERA")) {
+    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+  } else {
+    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+  }
+}
+
+function resultadoTijera (){
+  if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "PAPEL")) {
+    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+  } else if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "TIJERA")) {
+    document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+  } else {
+    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
   }
 }
 
 btnpiedra.addEventListener('click', () => {
   jugadorPiedra();
   programaEscogio();
-  resultadoPiedra()
+  resultadoPiedra();
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
 
 btnpapel.addEventListener('click', () => {
-  contenedor2.classList.toggle('contenedor2');
   jugadorPapel();
   programaEscogio();
+  resultadoPapel ();
+  contenedor2.classList.toggle('contenedor2');
+  contenedor3.classList.toggle('contenedor3');
 });
 
 btntijera.addEventListener('click', () => {
-  contenedor2.classList.toggle('contenedor2');
   jugadorTijera();
   programaEscogio();
+  resultadoTijera();
+  contenedor2.classList.toggle('contenedor2');
+  contenedor3.classList.toggle('contenedor3');
 });
-
-
-
-// btnpapel.addEventListener('click', () => {
-//   if (aleatorioGenerado == 1) {
-//     alert("Ganaste! La computadora eligió: " + aleatorioGenerado);
-// } else if (aleatorioGenerado == 2) {
-//     alert("Empataste! La computadora eligió: " + aleatorioGenerado);
-// } else {
-//     alert("Perdiste! La computadora eligió: " + aleatorioGenerado);
-// }
-// });
-
-// btntijera.addEventListener('click', () => {
-//   if (aleatorioGenerado == 1) {
-//     alert("Perdiste! La computadora eligió: " + aleatorioGenerado);
-//   } else if (aleatorioGenerado == 2) {
-//     alert("Ganaste! La computadora eligió: " + aleatorioGenerado);
-//   } else {
-//     alert("Empataste! La computadora eligió: " + aleatorioGenerado);
-//   }
-// });
-
 
 // partida = confirm("¿Desea se`guir jugando?")
 //   if (partida) {
