@@ -3,10 +3,9 @@ let jugadores = [];
 ( async () => {
 
 const { value: email } = await Swal.fire({
-  title: 'Input email address',
+  title: 'Ingresa tu correo electrónico',
   input: 'email',
-  inputLabel: 'Your email address',
-  inputPlaceholder: 'Enter your email address'
+  inputPlaceholder: 'email@email.com'
 })
 
 if (email) {
@@ -157,10 +156,27 @@ function resultadoTijera (){
   }
 }
 
+function nuevaPartida() {
+  Swal.fire({
+    title: '¿Deseas seguir jugando?',
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: 'Si',
+    denyButtonText: `No`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('Continuemos con el juego', '', 'success')
+    } else if (result.isDenied) {
+      Swal.fire('Partida finalizada', '', 'error')
+    }
+  })
+}
+
 btnpiedra.addEventListener('click', () => {
   jugadorPiedra();
   programaEscogio();
   resultadoPiedra();
+  setTimeout(nuevaPartida, 3000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
@@ -169,6 +185,7 @@ btnpapel.addEventListener('click', () => {
   jugadorPapel();
   programaEscogio();
   resultadoPapel ();
+  setTimeout(nuevaPartida, 3000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
@@ -177,12 +194,7 @@ btntijera.addEventListener('click', () => {
   jugadorTijera();
   programaEscogio();
   resultadoTijera();
+  setTimeout(nuevaPartida, 3000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
-
-// partida = confirm("¿Desea se`guir jugando?")
-//   if (partida) {
-//     entrada = prompt("Elige piedra, papel o tijera:")
-//   } while (partida)
-//     alert("¡Gracias por jugar!")
