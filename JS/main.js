@@ -9,8 +9,8 @@ const { value: email } = await Swal.fire({
 })
 
 if (email) {
-  Swal.fire(`Entered email: ${email}`)
-  jugadores.push(email)
+  Swal.fire(`Email ingresado: ${email}`)
+  jugadores.push(new Jugador (email))
   localStorage.setItem('jugador', JSON.stringify(jugadores));
   abrirNotificacion();
 }
@@ -26,6 +26,7 @@ class Jugador {
     this.partidasJugadas = 0;
     this.partidasGanadas = 0;
     this.partidasPerdidas = 0;
+    this.partidasEmpatadas = 0;
   }
 }
 
@@ -45,8 +46,6 @@ function abrirNotificacion() {
   }).showToast();
 }
 
-console.log(jugadores);
-
 fetch('https://api.pexels.com/v1/photos/4226910%27', {
   headers: {
     Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
@@ -54,11 +53,11 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
 })
   .then((resp) => resp.json())
   .then((data) => {
-    console.log(data);
     const btnTijera = document.getElementById('btntijera');
     let imagenTijera= `<img src=${data.src.small}>`;
     btnTijera.innerHTML += imagenTijera;
   });
+
   fetch('https://api.pexels.com/v1/photos/2363901', {
     headers: {
       Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
@@ -66,7 +65,6 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
   })
   .then((resp) => resp.json())
   .then((data) => {
-    console.log(data);
     const btnPiedra = document.getElementById('btnpiedra');
     let imagenPiedra= `<img src=${data.src.small}>`;
     btnPiedra.innerHTML += imagenPiedra;
@@ -79,7 +77,6 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
   })
   .then((resp) => resp.json())
   .then((data) => {
-    console.log(data);
     const btnPapel = document.getElementById('btnpapel');
     let imagenPapel= `<img src=${data.src.small}>`;
     btnPapel.innerHTML += imagenPapel;
@@ -95,10 +92,10 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
       return "TIJERA"
     }
   }
-  
-let aleatorioGenerado = numAleatorio() 
 
 let partida
+
+let aleatorioGenerado = numAleatorio() 
   
 const btnpiedra = document.getElementById('btnpiedra');
 
@@ -129,34 +126,67 @@ function programaEscogio (){
 function resultadoPiedra (){
   if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "PAPEL")) {
     document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasPerdidas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "TIJERA")) {
     document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasGanadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else {
     document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasEmpatadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   }
 }
 
 function resultadoPapel (){
   if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "PAPEL")) {
     document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasEmpatadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "TIJERA")) {
     document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasPerdidas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else {
     document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasGanadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   }
 }
 
 function resultadoTijera (){
   if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "PAPEL")) {
     document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasGanadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "TIJERA")) {
     document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasEmpatadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else {
     document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasPerdidas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
   }
 }
 
+function recarga () {
+  window.location.reload()
+}
+
 function nuevaPartida() {
+  contenedor2.classList.toggle('contenedor2');
+  contenedor3.classList.toggle('contenedor3');
   Swal.fire({
     title: '¿Deseas seguir jugando?',
     showDenyButton: true,
@@ -168,6 +198,7 @@ function nuevaPartida() {
       Swal.fire('Continuemos con el juego', '', 'success')
     } else if (result.isDenied) {
       Swal.fire('Partida finalizada', '', 'error')
+      setTimeout(recarga, 2000);
     }
   })
 }
@@ -176,16 +207,16 @@ btnpiedra.addEventListener('click', () => {
   jugadorPiedra();
   programaEscogio();
   resultadoPiedra();
-  setTimeout(nuevaPartida, 3000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
+  setTimeout(nuevaPartida, 2000);
 });
 
 btnpapel.addEventListener('click', () => {
   jugadorPapel();
   programaEscogio();
   resultadoPapel ();
-  setTimeout(nuevaPartida, 3000);
+  setTimeout(nuevaPartida, 2000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
@@ -194,7 +225,7 @@ btntijera.addEventListener('click', () => {
   jugadorTijera();
   programaEscogio();
   resultadoTijera();
-  setTimeout(nuevaPartida, 3000);
+  setTimeout(nuevaPartida, 2000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
