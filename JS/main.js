@@ -30,8 +30,6 @@ class Jugador {
   }
 }
 
-// Los parametros de partidasJugadas, partidasGanadas y partidasPerdidas van a ser incluídas mas adelante del curso.
-
 function abrirNotificacion() {
   Toastify({
     text: 'El jugador fue cargado con éxito',
@@ -92,8 +90,6 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
       return "TIJERA"
     }
   }
-
-let partida
 
 let aleatorioGenerado = numAleatorio() 
   
@@ -190,14 +186,25 @@ function nuevaPartida() {
   Swal.fire({
     title: '¿Deseas seguir jugando?',
     showDenyButton: true,
-    showCancelButton: true,
+    showCancelButton: false,
     confirmButtonText: 'Si',
     denyButtonText: `No`,
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire('Continuemos con el juego', '', 'success')
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Continuemos con el juego',
+        showConfirmButton: false,
+        timer: 2000
+      })
     } else if (result.isDenied) {
-      Swal.fire('Partida finalizada', '', 'error')
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Partida finalizada',
+        showConfirmButton: false,
+        timer: 2000})
       setTimeout(recarga, 2000);
     }
   })
