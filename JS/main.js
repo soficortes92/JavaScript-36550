@@ -1,3 +1,5 @@
+//Se inicia juego creando un array vacio para guardar objetos que serán los jugadores
+
 let jugadores = [];
 
 ( async () => {
@@ -16,20 +18,6 @@ if (email) {
 }
 })()
 
-localStorage.getItem('jugador') != null
-  ? (jugadores = JSON.parse(localStorage.getItem('jugador')))
-  : (jugadores = []);
-
-class Jugador {
-  constructor(email) {
-    this.mail = email;
-    this.partidasJugadas = 0;
-    this.partidasGanadas = 0;
-    this.partidasPerdidas = 0;
-    this.partidasEmpatadas = 0;
-  }
-}
-
 function abrirNotificacion() {
   Toastify({
     text: 'El usuario ya esta listo para jugar',
@@ -44,55 +32,71 @@ function abrirNotificacion() {
   }).showToast();
 }
 
-  fetch('https://api.pexels.com/v1/photos/1628230', {
-    headers: {
-      Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
-    },
-  })
-  .then((resp) => resp.json())
-  .then((data) => {
-    const btnPiedra = document.getElementById('btnpiedra');
-    let imagenPiedra= `<img src=${data.src.small}>`;
-    btnPiedra.innerHTML += imagenPiedra;
-  });
+localStorage.getItem('jugador') != null
+  ? (jugadores = JSON.parse(localStorage.getItem('jugador')))
+  : (jugadores = []);
 
-  fetch('https://api.pexels.com/v1/photos/963048', {
-    headers: {
-      Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
-    },
-  })
-  .then((resp) => resp.json())
-  .then((data) => {
-    const btnPapel = document.getElementById('btnpapel');
-    let imagenPapel= `<img src=${data.src.small}>`;
-    btnPapel.innerHTML += imagenPapel;
-  });
+class Jugador {
+  constructor(email) {
+    this.mail = email;
+    this.partidasJugadas = 0;
+    this.partidasGanadas = 0;
+    this.partidasPerdidas = 0;
+    this.partidasEmpatadas = 0;
+  }
+}
 
-  fetch('https://api.pexels.com/v1/photos/4226911', {
+fetch('https://api.pexels.com/v1/photos/1628230', {
   headers: {
     Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
   },
 })
-  .then((resp) => resp.json())
-  .then((data) => {
-    const btnTijera = document.getElementById('btntijera');
-    let imagenTijera= `<img src=${data.src.small}>`;
-    btnTijera.innerHTML += imagenTijera;
-  });
-  
-  function numAleatorio() {
-    let numeroGenerado = Math.floor(Math.random() * 3 + 1)
-    if (numeroGenerado == 1) {
-      return "PIEDRA"
-    } else if (numeroGenerado == 2) {
-      return "PAPEL"
-    } else {
-      return "TIJERA"
-    }
+.then((resp) => resp.json())
+.then((data) => {
+  const btnPiedra = document.getElementById('btnpiedra');
+  let imagenPiedra= `<img src=${data.src.small}>`;
+  btnPiedra.innerHTML += imagenPiedra;
+});
+
+fetch('https://api.pexels.com/v1/photos/963048', {
+  headers: {
+    Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
+  },
+})
+.then((resp) => resp.json())
+.then((data) => {
+  const btnPapel = document.getElementById('btnpapel');
+  let imagenPapel= `<img src=${data.src.small}>`;
+  btnPapel.innerHTML += imagenPapel;
+});
+
+fetch('https://api.pexels.com/v1/photos/4226911', {
+  headers: {
+    Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
+  },
+})
+.then((resp) => resp.json())
+.then((data) => {
+  const btnTijera = document.getElementById('btntijera');
+  let imagenTijera= `<img src=${data.src.small}>`;
+  btnTijera.innerHTML += imagenTijera;
+});
+
+// Se declaran las funciones y constantes que generarán el juego
+
+function numAleatorio() {
+  let numeroGenerado = Math.floor(Math.random() * 3 + 1)
+  if (numeroGenerado == 1) {
+    return "PIEDRA"
+  } else if (numeroGenerado == 2) {
+    return "PAPEL"
+  } else {
+    return "TIJERA"
   }
+}
 
 let aleatorioGenerado = numAleatorio() 
-  
+
 const btnpiedra = document.getElementById('btnpiedra');
 
 const btnpapel = document.getElementById('btnpapel');
