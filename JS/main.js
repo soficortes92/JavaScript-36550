@@ -3,7 +3,7 @@ let jugadores = [];
 ( async () => {
 
 const { value: email } = await Swal.fire({
-  title: 'Ingresa tu correo electrónico',
+  title: 'Ingresá tu email para jugar',
   input: 'email',
   inputPlaceholder: 'email@email.com'
 })
@@ -32,7 +32,7 @@ class Jugador {
 
 function abrirNotificacion() {
   Toastify({
-    text: 'El jugador fue cargado con éxito',
+    text: 'El usuario ya esta listo para jugar',
     duration: 3000,
     offset: {
       x: 100,
@@ -44,19 +44,7 @@ function abrirNotificacion() {
   }).showToast();
 }
 
-fetch('https://api.pexels.com/v1/photos/4226910%27', {
-  headers: {
-    Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
-  },
-})
-  .then((resp) => resp.json())
-  .then((data) => {
-    const btnTijera = document.getElementById('btntijera');
-    let imagenTijera= `<img src=${data.src.small}>`;
-    btnTijera.innerHTML += imagenTijera;
-  });
-
-  fetch('https://api.pexels.com/v1/photos/2363901', {
+  fetch('https://api.pexels.com/v1/photos/1628230', {
     headers: {
       Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
     },
@@ -68,7 +56,7 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
     btnPiedra.innerHTML += imagenPiedra;
   });
 
-  fetch('https://api.pexels.com/v1/photos/8823492', {
+  fetch('https://api.pexels.com/v1/photos/963048', {
     headers: {
       Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
     },
@@ -78,6 +66,18 @@ fetch('https://api.pexels.com/v1/photos/4226910%27', {
     const btnPapel = document.getElementById('btnpapel');
     let imagenPapel= `<img src=${data.src.small}>`;
     btnPapel.innerHTML += imagenPapel;
+  });
+
+  fetch('https://api.pexels.com/v1/photos/4226911', {
+  headers: {
+    Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
+  },
+})
+  .then((resp) => resp.json())
+  .then((data) => {
+    const btnTijera = document.getElementById('btntijera');
+    let imagenTijera= `<img src=${data.src.small}>`;
+    btnTijera.innerHTML += imagenTijera;
   });
   
   function numAleatorio() {
@@ -121,17 +121,17 @@ function programaEscogio (){
 
 function resultadoPiedra (){
   if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "PAPEL")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>¡Seguí intentando! Esta vez perdiste</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasPerdidas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "TIJERA")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>¡Felicitaciones! Nos ganaste</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasGanadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else {
-    document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>Casi pero no, empatamos</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasEmpatadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
@@ -140,17 +140,17 @@ function resultadoPiedra (){
 
 function resultadoPapel (){
   if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "PAPEL")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>Casi pero no, empatamos</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasEmpatadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "TIJERA")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>¡Seguí intentando! Esta vez perdiste</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasPerdidas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else {
-    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>¡Felicitaciones! Nos ganaste</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasGanadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
@@ -159,17 +159,17 @@ function resultadoPapel (){
 
 function resultadoTijera (){
   if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "PAPEL")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>¡Felicitaciones! Nos ganaste</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasGanadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "TIJERA")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>EMPATASTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>Casi pero no, empatamos</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasEmpatadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
   } else {
-    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    document.getElementById("contenedor3").innerHTML = "<h1>¡Seguí intentando! Esta vez perdiste</h1>";
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasPerdidas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
@@ -216,14 +216,14 @@ btnpiedra.addEventListener('click', () => {
   resultadoPiedra();
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
-  setTimeout(nuevaPartida, 2000);
+  // setTimeout(nuevaPartida, 2000);
 });
 
 btnpapel.addEventListener('click', () => {
   jugadorPapel();
   programaEscogio();
   resultadoPapel ();
-  setTimeout(nuevaPartida, 2000);
+  // setTimeout(nuevaPartida, 2000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
@@ -232,7 +232,7 @@ btntijera.addEventListener('click', () => {
   jugadorTijera();
   programaEscogio();
   resultadoTijera();
-  setTimeout(nuevaPartida, 2000);
+  // setTimeout(nuevaPartida, 2000);
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
 });
