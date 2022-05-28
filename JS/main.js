@@ -1,6 +1,10 @@
-//Se inicia juego creando un array vacio para guardar objetos que serán los jugadores
+//Se inicia juego creando un array vacio 
 
 let jugadores = [];
+
+let partidaGanada = 0;
+
+let partidaPerdida = 0;
 
 ( async () => {
 
@@ -46,6 +50,8 @@ class Jugador {
   }
 }
 
+// Consumo de API
+
 fetch('https://api.pexels.com/v1/photos/1628230', {
   headers: {
     Authorization: '563492ad6f91700001000001d280236697fc47159c795c85a229932c',
@@ -82,7 +88,21 @@ fetch('https://api.pexels.com/v1/photos/4226911', {
   btnTijera.innerHTML += imagenTijera;
 });
 
-// Se declaran las funciones y constantes que generarán el juego
+// Declaración de constantes
+
+const btnpiedra = document.getElementById('btnpiedra');
+
+const btnpapel = document.getElementById('btnpapel');
+
+const btntijera = document.getElementById('btntijera');
+
+const seleccionJugador =  document.getElementById('app1');
+
+const seleccionPrograma = document.getElementById('app2');
+
+const btnContinuar = document.getElementById('contenedor4');
+
+// Declaración de funciones
 
 function numAleatorio() {
   let numeroGenerado = Math.floor(Math.random() * 3 + 1)
@@ -94,18 +114,6 @@ function numAleatorio() {
     return "TIJERA"
   }
 }
-
-let aleatorioGenerado = numAleatorio() 
-
-const btnpiedra = document.getElementById('btnpiedra');
-
-const btnpapel = document.getElementById('btnpapel');
-
-const btntijera = document.getElementById('btntijera');
-
-const seleccionJugador =  document.getElementById('app1');
-
-const seleccionPrograma = document.getElementById('app2');
 
 function jugadorPiedra () {
   seleccionJugador.innerText = "PIEDRA"
@@ -125,58 +133,37 @@ function programaEscogio (){
 
 function resultadoPiedra (){
   if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "PAPEL")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>¡Seguí intentando! Esta vez perdiste</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasPerdidas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    partidaPerdida++ 
   } else if ((seleccionJugador.innerText == "PIEDRA") && (seleccionPrograma.innerText == "TIJERA")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>¡Felicitaciones! Nos ganaste</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasGanadas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    partidaGanada++ 
   } else {
-    document.getElementById("contenedor3").innerHTML = "<h1>Casi pero no, empatamos</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasEmpatadas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>EMPATAMOS</h1>";
   }
 }
 
 function resultadoPapel (){
   if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "PAPEL")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>Casi pero no, empatamos</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasEmpatadas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>EMPATAMOS</h1>"; 
   } else if ((seleccionJugador.innerText == "PAPEL") && (seleccionPrograma.innerText == "TIJERA")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>¡Seguí intentando! Esta vez perdiste</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasPerdidas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    partidaPerdida++ 
   } else {
-    document.getElementById("contenedor3").innerHTML = "<h1>¡Felicitaciones! Nos ganaste</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasGanadas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    partidaGanada++ 
   }
 }
 
 function resultadoTijera (){
   if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "PAPEL")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>¡Felicitaciones! Nos ganaste</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasGanadas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>GANASTE</h1>";
+    partidaGanada++ 
   } else if ((seleccionJugador.innerText == "TIJERA") && (seleccionPrograma.innerText == "TIJERA")) {
-    document.getElementById("contenedor3").innerHTML = "<h1>Casi pero no, empatamos</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasEmpatadas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>EMPATAMOS</h1>";
   } else {
-    document.getElementById("contenedor3").innerHTML = "<h1>¡Seguí intentando! Esta vez perdiste</h1>";
-    jugadores[(jugadores.length - 1)].partidasJugadas++;
-    jugadores[(jugadores.length - 1)].partidasPerdidas++;
-    localStorage.setItem('jugador', JSON.stringify(jugadores));
+    document.getElementById("contenedor3").innerHTML = "<h1>PERDISTE</h1>";
+    partidaPerdida++ 
   }
 }
 
@@ -184,59 +171,70 @@ function recarga () {
   window.location.reload()
 }
 
-function nuevaPartida() {
-  contenedor2.classList.toggle('contenedor2');
-  contenedor3.classList.toggle('contenedor3');
-  Swal.fire({
-    title: '¿Deseas seguir jugando?',
-    showDenyButton: true,
-    showCancelButton: false,
-    confirmButtonText: 'Si',
-    denyButtonText: `No`,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Continuemos con el juego',
-        showConfirmButton: false,
-        timer: 2000
-      })
-    } else if (result.isDenied) {
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Partida finalizada',
-        showConfirmButton: false,
-        timer: 2000})
-      setTimeout(recarga, 2000);
-    }
-  })
+function obtenerResultado (){
+  if (partidaGanada == 2){
+    Swal.fire('¡Felicidades! Ganaste la partida')
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasGanadas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
+  } 
+  if (partidaPerdida == 2){
+    Swal.fire('¡Seguí intentando! Esta vez perdiste la partida')
+    jugadores[(jugadores.length - 1)].partidasJugadas++;
+    jugadores[(jugadores.length - 1)].partidasPerdidas++;
+    localStorage.setItem('jugador', JSON.stringify(jugadores));
+  }
+  
 }
+
+// Inicio de juego
 
 btnpiedra.addEventListener('click', () => {
   jugadorPiedra();
   programaEscogio();
   resultadoPiedra();
+  obtenerResultado();
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
-  // setTimeout(nuevaPartida, 2000);
+  contenedor4.classList.toggle('contenedor4');
 });
 
 btnpapel.addEventListener('click', () => {
   jugadorPapel();
   programaEscogio();
   resultadoPapel ();
-  // setTimeout(nuevaPartida, 2000);
+  obtenerResultado ();
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
+  contenedor4.classList.toggle('contenedor4');
 });
 
 btntijera.addEventListener('click', () => {
   jugadorTijera();
   programaEscogio();
   resultadoTijera();
-  // setTimeout(nuevaPartida, 2000);
+  obtenerResultado ();
   contenedor2.classList.toggle('contenedor2');
   contenedor3.classList.toggle('contenedor3');
+  contenedor4.classList.toggle('contenedor4');
 });
+
+btnContinuar.addEventListener('click', () => {
+  contenedor2.classList.toggle('contenedor2');
+  contenedor3.classList.toggle('contenedor3');
+  contenedor4.classList.toggle('contenedor4');
+})
+
+// Swal.fire({
+//   title: '¿Querés jugar una nueva partida?',
+//   showDenyButton: true,
+//   showCancelButton: false,
+//   confirmButtonText: 'Si',
+//   denyButtonText: `No`,
+// }).then((result) => {
+//   if (result.isConfirmed) {
+//     Swal.fire('¡Continuemos!', '', 'success')
+//   } else if (result.isDenied) {
+//     recarga()
+//   }
+// })
