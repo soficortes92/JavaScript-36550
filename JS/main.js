@@ -1,10 +1,19 @@
-//Se inicia juego creando un array vacio 
+// Se crea un array vacio para guardar objeto jugador
 
 let jugadores = [];
 
 let partidaGanada = 0;
 
 let partidaPerdida = 0;
+
+// Funcion que guarda en localStorage
+
+function storage (email) {
+  jugadores.push(new Jugador (email))
+  localStorage.setItem('jugador', JSON.stringify(jugadores));
+}
+
+// Funcion que se inicia automaticamente 
 
 ( async () => {
 
@@ -16,8 +25,7 @@ const { value: email } = await Swal.fire({
 
 if (email) {
   Swal.fire(`Email ingresado: ${email}`)
-  jugadores.push(new Jugador (email))
-  localStorage.setItem('jugador', JSON.stringify(jugadores));
+  storage (email);
   abrirNotificacion();
 }
 })()
@@ -46,7 +54,6 @@ class Jugador {
     this.partidasJugadas = 0;
     this.partidasGanadas = 0;
     this.partidasPerdidas = 0;
-    this.partidasEmpatadas = 0;
   }
 }
 
@@ -171,23 +178,45 @@ function recarga () {
   window.location.reload()
 }
 
+function nuevaPartida (){
+  partidaPerdida = 0;
+  partidaGanada = 0;
+  contenedor2.classList.toggle('contenedor2');
+  contenedor3.classList.toggle('contenedor3');
+  contenedor4.classList.toggle('contenedor4');
+  Swal.fire({
+    title: '¿Querés jugar una nueva partida?',
+    showDenyButton: true,
+    showCancelButton: false,
+    confirmButtonText: 'Si',
+    denyButtonText: `No`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('¡Continuemos!', '', 'success')
+    } else if (result.isDenied) {
+      recarga()
+    }
+  })
+}
+
 function obtenerResultado (){
   if (partidaGanada == 2){
     Swal.fire('¡Felicidades! Ganaste la partida')
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasGanadas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
+    setTimeout(nuevaPartida, 4000);
   } 
   if (partidaPerdida == 2){
     Swal.fire('¡Seguí intentando! Esta vez perdiste la partida')
     jugadores[(jugadores.length - 1)].partidasJugadas++;
     jugadores[(jugadores.length - 1)].partidasPerdidas++;
     localStorage.setItem('jugador', JSON.stringify(jugadores));
+    setTimeout(nuevaPartida, 4000);
   }
-  
 }
 
-// Inicio de juego
+// Inicio de partida
 
 btnpiedra.addEventListener('click', () => {
   jugadorPiedra();
@@ -224,17 +253,3 @@ btnContinuar.addEventListener('click', () => {
   contenedor3.classList.toggle('contenedor3');
   contenedor4.classList.toggle('contenedor4');
 })
-
-// Swal.fire({
-//   title: '¿Querés jugar una nueva partida?',
-//   showDenyButton: true,
-//   showCancelButton: false,
-//   confirmButtonText: 'Si',
-//   denyButtonText: `No`,
-// }).then((result) => {
-//   if (result.isConfirmed) {
-//     Swal.fire('¡Continuemos!', '', 'success')
-//   } else if (result.isDenied) {
-//     recarga()
-//   }
-// })
